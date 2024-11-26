@@ -1,30 +1,23 @@
 import pygame
 import random
 from projectile import Projectile
+# config
+from config import SCREEN_WIDTH
+from config import SCREEN_HEIGHT
+from config import FPS
+from config import GAME_TIME
+from config import PLAYER_SIZE
+from config import PLAYER_SPEED
+from config import ENEMY_DEFAULT_SPEED
+from config import COIN_SIZE
+from config import WHITE
+from config import BLACK
+from config import RED
+from config import GREEN
+import config as cf
 
 # Initialize Pygame
 pygame.init()
-
-# Screen dimensions
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 640
-
-# Colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-
-# Game settings
-FPS = 60
-GAME_TIME = 30  # seconds
-
-# Player settings
-PLAYER_SIZE = 100
-PLAYER_SPEED = 5
-
-# Coin settings
-COIN_SIZE = 20
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -133,8 +126,8 @@ while running:
     pygame.draw.rect(screen, RED, coin)
 
     # Display score and time
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    time_text = font.render(f"Time: {int(remaining_time)}", True, WHITE)
+    score_text = font.render(f"Score: {score}", True, BLACK)
+    time_text = font.render(f"Time: {int(remaining_time)}", True, BLACK)
     screen.blit(score_text, (10, 10))
     screen.blit(time_text, (10, 50))
 
