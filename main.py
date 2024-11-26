@@ -76,7 +76,7 @@ while running:
                 # Instantiate a new projectile
                 projectiles.append(Projectile(projectile_value, player.x+PLAYER_SIZE, player.y+PLAYER_SIZE/2))
                 for p in projectiles:
-                    print(p.y)
+                    #print(p.y)
                 
     
     
