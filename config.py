@@ -1,0 +1,24 @@
+
+# Screen
+SCREEN_WIDTH = 1080
+SCREEN_HEIGHT = 640
+
+# Game
+FPS = 60
+GAME_TIME = 30 # seconds
+
+# Player
+PLAYER_SIZE = 100
+PLAYER_SPEED = 5
+
+# Enemy
+ENEMY_DEFAULT_SPEED = 2
+
+# "Coin"
+COIN_SIZE = 20
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
