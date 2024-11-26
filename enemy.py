@@ -1,5 +1,7 @@
 import pygame
 import random
+import config as cf
+
 class Enemy:
     def __init(self, inputA, inputB, x, y):
         self.inputA = inputA
@@ -12,4 +14,4 @@ class Enemy:
         self.x -= self.speed
 
     def draw(self, screen)
-        
+        co

@@ -1,5 +1,6 @@
 import pygame
 import random
+import config as cf
 
 class Projectile:
     def __init__(self,value, x, y):
