@@ -1,6 +1,7 @@
 import pygame
 import random
 from projectile import Projectile
+from display import Initialize_Display
 # config
 from config import SCREEN_WIDTH
 from config import SCREEN_HEIGHT
@@ -22,6 +23,9 @@ pygame.init()
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Best Shooter Game Ever, literally")
+background_surface = pygame.image.load('art/background0.jpg')
+resized_background = pygame.transform.scale(background_surface, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
 
 # Clock and font
 clock = pygame.time.Clock()
@@ -29,8 +33,6 @@ font = pygame.font.SysFont(None, 48)
 
 # Player
 player = pygame.Rect(SCREEN_WIDTH // 15, SCREEN_HEIGHT // 2, PLAYER_SIZE, PLAYER_SIZE)
-
-# Player State ( 0 or 1)
 player_state = 0
 
 # Coin
@@ -48,6 +50,7 @@ start_time = pygame.time.get_ticks()
 # List to store projectiles
 projectiles = []
 projectile_value = 0
+Projectile.load_images()
 
 # Game loop
 running = True
@@ -69,25 +72,15 @@ while running:
             # change ammo (1 or 0)
             if event.key == pygame.K_1:
                 projectile_value = 1
+                player_state = 1
             elif event.key == pygame.K_0:
                 projectile_value = 0
+                player_state = 0
 
             if event.key == pygame.K_SPACE:  # Space bar pressed
                 # Instantiate a new projectile
                 projectiles.append(Projectile(projectile_value, player.x+PLAYER_SIZE, player.y+PLAYER_SIZE/2))
-                for p in projectiles:
-                    print(p.y)
                 
-    
-    
-    # update projectiles
-    for projectile in projectiles[:]:
-            projectile.update()
-            if projectile.y < 0:  # Remove projectiles that move off-screen
-                projectiles.remove(projectile)
-            else:
-                projectile.draw(screen)
-
     # Movement
     keys = pygame.key.get_pressed()
     # if keys[pygame.K_LEFT]:
@@ -100,12 +93,12 @@ while running:
         player.y += PLAYER_SPEED
 
     # Chnage Player state:
-    if keys[pygame.K_LEFT] and player_state == 0:
-        player_state = 1
-        pygame.time.wait(100)
-    elif keys[pygame.K_LEFT] and player_state == 1:
-        player_state = 0
-        pygame.time.wait(100)
+    # if keys[pygame.K_LEFT] and player_state == 0:
+    #     player_state = 1
+    #     pygame.time.wait(100)
+    # elif keys[pygame.K_LEFT] and player_state == 1:
+    #     player_state = 0
+    #     pygame.time.wait(100)
 
     # Boundaries
     player.x = max(0, min(SCREEN_WIDTH - PLAYER_SIZE, player.x))
@@ -118,18 +111,20 @@ while running:
         coin.y = random.randint(0, SCREEN_HEIGHT - COIN_SIZE)
 
     # Drawing
-    screen.fill(WHITE)
+    screen.fill(BLACK)
+    screen.blit(resized_background,(0,0))
+
     if player_state == 0:
-        pygame.draw.rect(screen, GREEN, player)
+        pygame.draw.rect(screen, cf.BLUE, player)
     else: 
         pygame.draw.rect(screen, RED, player)
-    pygame.draw.rect(screen, RED, coin)
+    #pygame.draw.rect(screen, RED, coin)
 
     # Display score and time
-    score_text = font.render(f"Score: {score}", True, BLACK)
-    time_text = font.render(f"Time: {int(remaining_time)}", True, BLACK)
-    screen.blit(score_text, (10, 10))
-    screen.blit(time_text, (10, 50))
+    # score_text = font.render(f"Score: {score}", True, BLACK)
+    # time_text = font.render(f"Time: {int(remaining_time)}", True, BLACK)
+    # screen.blit(score_text, (10, 10))
+    # screen.blit(time_text, (10, 50))
 
     # update projectiles
     for projectile in projectiles[:]:
