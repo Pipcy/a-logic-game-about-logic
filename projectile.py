@@ -13,16 +13,16 @@ class Projectile:
     @classmethod
     def load_images(cls):
         cls.image1 = pygame.image.load('art/1.png')
-        cls.image1 = pygame.transform.scale(cls.image1, (300, 300))  
+        cls.image1 = pygame.transform.scale(cls.image1, (20, 20))  
         cls.image0 = pygame.image.load('art/0.png')
-        cls.image0 = pygame.transform.scale(cls.image0, (300, 300))  
+        cls.image0 = pygame.transform.scale(cls.image0, (20, 20))  
 
     def __init__(self,value, x, y):
         self.value = value  
         self.x = x  # Initial x position
         self.y = y  # Initial y position
         self.speed = 5  # Speed of the projectile moving forward
-        self.angle = 0
+        self.angle = 360
 
 
     def update(self):
@@ -30,9 +30,9 @@ class Projectile:
         self.x += self.speed
 
         # Update the rotation angle (adjust increment for desired speed of rotation)
-        self.angle += 3
-        if self.angle >= 360:
-            self.angle -= 360 
+        self.angle -= 3
+        if self.angle <= 0:
+            self.angle += 360 
         
 
     def draw(self, screen):
