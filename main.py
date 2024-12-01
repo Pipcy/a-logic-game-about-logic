@@ -48,7 +48,7 @@ Projectile.load_images()
 
 #enemy
 Enemy.load_images()
-enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(3)]  # Create some enemies
+enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(2)]  # Create some enemies
 
 
 #lose
@@ -78,6 +78,7 @@ def over():
 # Game loop
 running = True
 while running:
+    ## print(str(enemies[0].inputA)+str(enemies[0].inputB))
     # Calculate elapsed time
     elapsed_time = (pygame.time.get_ticks() - start_time) / 1000
     remaining_time = max(0, GAME_TIME - elapsed_time)
@@ -139,8 +140,10 @@ while running:
                 projectile.draw(screen)
 
     # Update enemies and check for collisions
+    print(str(enemies[0].inputA)+str(enemies[0].inputB)+str(enemies[0].input_result))
     for enemy in enemies:
         enemy.update()
+        enemy.check_logic()
         for projectile in projectiles:
             if enemy.check_collision(projectile):
                 score+=1

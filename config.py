@@ -12,8 +12,8 @@ PLAYER_SPEED = 5
 
 # Enemy
 ENEMY_DEFAULT_SPEED = 2
-ENEMY_SPAWN_Y = [100, 300, 500]  # lanes of which enemy spawns in, between 0 and 640 (y)
-ENEMY_TYPE = ['AND1', 'OR1', 'NOT1','NOT0']
+ENEMY_SPAWN_Y = [100, 200, 300, 400, 500]  # lanes of which enemy spawns in, between 0 and 640 (y)
+ENEMY_TYPE = ['AND', 'OR'] # NAND, NOR, XOR, XNOR
 
 # "Coin"
 COIN_SIZE = 20
