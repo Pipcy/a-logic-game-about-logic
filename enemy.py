@@ -24,10 +24,15 @@ class Enemy:
     def load_images(cls):
         # cls.image = pygame.image.load('art/and1-01.png')
         # cls.image = pygame.transform.scale(cls.image, (100, 100))  # Scale to desired size
+        cls.images['1'] = pygame.transform.scale(pygame.image.load('art/1.png'), (20, 20))
+        cls.images['0'] = pygame.transform.scale(pygame.image.load('art/0.png'), (20, 20))
         cls.images['AND'] = pygame.transform.scale(pygame.image.load('art/and.png'), (200, 80))
         cls.images['OR'] = pygame.transform.scale(pygame.image.load('art/or.png'), (200, 80))
-        cls.images['0'] = pygame.transform.scale(pygame.image.load('art/0.png'), (20, 20))
-        cls.images['1'] = pygame.transform.scale(pygame.image.load('art/1.png'), (20, 20))
+        cls.images['NAND'] = pygame.transform.scale(pygame.image.load('art/nand.png'), (200, 80))
+        cls.images['NOR'] = pygame.transform.scale(pygame.image.load('art/nor.png'), (200, 80))
+        cls.images['XOR'] = pygame.transform.scale(pygame.image.load('art/xor.png'), (200, 80))
+        cls.images['XNOR'] = pygame.transform.scale(pygame.image.load('art/xnor.png'), (200, 80))
+        
 
     def __init__(self, x, y, inputA=2, inputB=2):
         self.x = x  # Initial x position
@@ -111,7 +116,27 @@ class Enemy:
         if self.enemyType == 'OR' and self.inputA != 2 and self.inputB != 2:
             self.input_result = self.inputA or self.inputB
 
+        # NAND
+        if self.enemyType == 'NAND' and self.inputA != 2 and self.inputB != 2:
+            self.input_result = self.inputA != 1 and self.inputB != 1
+
+        # NOR
+        if self.enemyType == 'NOR' and self.inputA != 2 and self.inputB != 2:
+            self.input_result = self.inputA == 0 and self.inputB == 0
+
+        # XOR
+        if self.enemyType == 'XOR' and self.inputA != 2 and self.inputB != 2:
+            self.input_result = self.inputA != self.inputB 
+
+        # XNOR
+        if self.enemyType == 'XNOR' and self.inputA != 2 and self.inputB != 2:
+            self.input_result = self.inputA == self.inputB 
+
         if self.input_result == self.output:
             self.isAlive = False
+
+        # increase speed if logic wrong
+        if self.inputA != 2 and self.inputB != 2 and self.isAlive:
+            self.speed = 4
 
 

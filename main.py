@@ -48,7 +48,8 @@ Projectile.load_images()
 
 #enemy
 Enemy.load_images()
-enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(2)]  # Create some enemies
+#enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(2)]  # Create some enemies
+enemies = [Enemy(1080, random.choice(cf.ENEMY_SPAWN_Y)) for _ in range(2)]  # Create some enemies
 
 
 #lose
