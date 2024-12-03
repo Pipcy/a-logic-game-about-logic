@@ -1,7 +1,9 @@
 import pygame
 import random
+import time
 import config as cf
 from projectile import Projectile
+import numpy as np
 
 # class Enemy:
 #     def __init(self, inputA, inputB, x, y):
@@ -35,17 +37,17 @@ class Enemy:
         
 
     def __init__(self, x, y, inputA=2, inputB=2):
-        self.x = x  # Initial x position
-        self.y = y  # Initial y position
+        self.x = x                                          # Initial x position
+        self.y = y                                          # Initial y position
     
         self.inputA = inputA
         self.inputB = inputB
         self.enemyType = random.choice(cf.ENEMY_TYPE)       # randomly choose an enemy type
         self.output = random.randint(0, 1)                  # randomly generate output 0 or 1
-        self.input_result = 0                                # empty, wrong, right
+        self.input_result = 0                               # empty, wrong, right
 
 
-        self.speed = 2                                      # Speed of the enemy moving left
+        self.speed = cf.ENEMY_SPEED                         # Speed of the enemy moving left
         self.isAlive = True                                 # Whether the enemy is still active
         
         if self.enemyType in Enemy.images:
@@ -53,10 +55,10 @@ class Enemy:
         else:
             raise ValueError(f"Unknown enemyType: {self.enemyType}")
 
-    def update(self):
+    def update(self, difficulty_level):
         if self.isAlive:
             # Move the enemy left
-            self.x -= self.speed
+            self.x -= self.speed + difficulty_level*random.randint(0,5)*0.05
 
     def draw(self, screen):
         if self.isAlive:
@@ -132,11 +134,77 @@ class Enemy:
         if self.enemyType == 'XNOR' and self.inputA != 2 and self.inputB != 2:
             self.input_result = self.inputA == self.inputB 
 
+        # kill enemy when logic correct
         if self.input_result == self.output:
             self.isAlive = False
 
         # increase speed if logic wrong
         if self.inputA != 2 and self.inputB != 2 and self.isAlive:
-            self.speed = 4
+            self.speed = cf.ENEMY_SPEED * 2
+
+        
+    def spawn_enemy_one_batch(difficulty_level):
+        #batch_alive = True
+        #difficulty_level = 5
+        # enemy_counter = 0
+        enemy_batch = []
+        # for _ in range(difficulty_level,difficulty_level+2):
+        #     enemy_batch.append(Enemy(1080, random.choice(cf.ENEMY_SPAWN_Y)))
+
+        enemy_array = np.zeros((difficulty_level, 3), dtype=int)
+        # For each column, ensure at least one 1 and at most all 1s
+        for col in range(3):
+            # Randomly choose the number of 1s to place in this column (at least 1, at most n)
+            num_ones = np.random.randint(1, difficulty_level + 1)
+            positions = np.random.choice(difficulty_level, size=num_ones, replace=False)
+            enemy_array[positions, col] = 1
+
+        for row in range(enemy_array.shape[0]):  # Iterate over rows
+            for col in range(enemy_array.shape[1]):  # Iterate over columns
+                if enemy_array[row, col] == 1:
+                    enemy_batch.append(Enemy(1080+250*row, cf.ENEMY_SPAWN_Y[col]))
+
+        #enemy_batch = [Enemy(1080, random.choice(cf.ENEMY_SPAWN_Y)) for _ in range(difficulty_level, difficulty_level+2)] 
+        return enemy_batch
+
+        # while there is still enemy alive in this batch:
+        # if not all(enemy_batch.isAlive == False for enemy in enemy_batch):
+
+    #     while batch_alive is True:
+    #         while enemy_counter < difficulty_level:    
+    #             time.sleep(random.uniform(0, 3)) # wait for a bit
+    #             print(f"spawn the {enemy_counter} enemy...")
+    #             enemy_batch.append(Enemy(1080, random.choice(cf.ENEMY_SPAWN_Y)))
+    #             enemy_counter += 1
+            
+    #         if difficulty_level == enemy_counter and all(enemy.isAlive == False for enemy in enemy_batch):
+    #             batch_alive = False
+
+    #         for enemy in enemy_batch:
+    #             enemy.update()
+    #             enemy.check_logic()
+    #             for projectile in projectiles:
+    #                 if enemy.check_collision(projectile):
+    #                     score+=1
+    #                     projectiles.remove(projectile) # projectile disappear when hit an enemy
+    #                     break
+    #             enemy.draw(screen)
+
+    #             if enemy.x <= 100: # when enemy moved in danger zone
+    #                 lose()
+    
+    # def spawn_enemy_batches():
+    #     Enemy.spawn_enemy_one_batch()
+        
+
+            
+        
+
+                
+
+
+        
+
+        
 
 
