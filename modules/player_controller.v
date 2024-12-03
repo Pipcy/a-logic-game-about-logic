@@ -86,7 +86,7 @@ module player_controller(
         projectile_encoded[1] = is_firing;
         projectile_encoded[0] = projectile;
         // Encode output data: rst, (nothing/0), projectile, and lane
-        data_out <= {rst, 0, projectile_encoded, next_state};
+        data_out <= {rst, 1'b0, projectile_encoded, next_state};
         
         
         
