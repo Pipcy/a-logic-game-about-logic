@@ -13,6 +13,12 @@ module player_controller_tb(
         rst = 0; clk = 0; button_up = 0; button_down = 0; is_firing = 0; projectile = 0;
         #2 // TODO: test various inputs
         
+        // press up button a few times
+        #2 button_up = 1;
+        #6 button_up = 0;
+        #6 button_up = 1;
+        #6 button_up = 0;
+        
         #50 $finish;
     
     end
