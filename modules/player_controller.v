@@ -1,4 +1,26 @@
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 12/03/2024 03:50:08 PM
+// Design Name: 
+// Module Name: player_controller
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 /*
  * The player_controller is the top module that handles user input, including
@@ -20,9 +42,7 @@ module player_controller(
     );   
      
     // CONFIGURATION
-    localparam SCREEN_HEIGHT = 640;
-    localparam NUMBER_OF_LANES = 9;
-    localparam LANE_SIZE = SCREEN_HEIGHT / NUMBER_OF_LANES;
+
     
     // Registers for the current and next state (lane)
     reg [3:0] current_state;
@@ -56,13 +76,13 @@ module player_controller(
     always @(posedge button_up) begin
         // as long as we are not at lane9, move up one lane
         if (~(current_state == LANE9)) begin
-            next_state = current_state + 8'b00000001;
+            next_state = current_state + 4'b0001; 
         end
     end
     always @(posedge button_down) begin
         // as long as we are not at lane1, move down one lane
-        if (~(current_state == LANE9)) begin
-            next_state = current_state - 8'b00000001;
+        if (~(current_state == LANE1)) begin //
+            next_state = current_state - 4'b0001;
         end
     end
     // At posedge of rst, reset the game (asynchronous)
@@ -74,68 +94,20 @@ module player_controller(
     end
     
     // At posedge of clk, update current state and encode output data
-    always @(posedge clk) begin
+    always @(*) begin //
         if (current_state == RESET) begin
-            current_state <= LANE5;
+            next_state <= LANE5;
         end
         
         // Move to the next state
-        current_state <= next_state;
+        current_state = next_state;
 
         // Encode projectile data in two bits
         projectile_encoded[1] = is_firing;
         projectile_encoded[0] = projectile;
         // Encode output data: rst, (nothing/0), projectile, and lane
-        data_out <= {rst, 1'b0, projectile_encoded, next_state};
+        data_out <= {rst, 1'b0, projectile_encoded, current_state}; 
         
-        
-        
-        // CASE STATEMENT this is all useless? to delete later
-//        case (current_state)
-            
-//            RESET : begin
-//                // Start in the center lane (5)
-//                next_state = LANE5;
-//            end
-            
-//            LANE1 : begin
-//                // Can only move upwards
-//                if (button_up) begin
-                    
-//                end
-//            end
-            
-//            LANE2 : begin
-//            end
-            
-//            LANE3 : begin
-//            end
-            
-//            LANE4 : begin
-//            end
-            
-//            LANE5 : begin
-//            end
-            
-//            LANE6 : begin
-//            end
-            
-//            LANE7 : begin
-//            end
-            
-//            LANE8 : begin
-//            end
-            
-//            LANE9 : begin
-//                // Can only move downwards
-//            end
-        
-//        endcase
-    
-    
-    
-    
-    
     end
     
     
@@ -149,3 +121,4 @@ endmodule
 
 
 
+  
