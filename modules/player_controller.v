@@ -48,6 +48,15 @@ module player_controller(
     reg [3:0] current_state;
     reg [3:0] next_state;
     reg [1:0] projectile_encoded;
+    wire clean_button_up;
+    wire clean_button_down;
+    wire clean_is_firing;
+    wire clean_projectile;
+    
+    debouncer d1(clk, button_up, clean_button_up);
+    debouncer d2(clk, button_down, clean_button_down);
+    debouncer d3(clk, is_firing, clean_is_firing);
+    debouncer d4(clk, projectile, clean_projectile);
     
     // STATE DEFINITIONS
     localparam  RESET = 4'b0000,
@@ -73,13 +82,13 @@ module player_controller(
     // STATE MACHINE
     
     // At posedge of buttons, update our movement
-    always @(posedge button_up) begin
+    always @(posedge clean_button_up) begin
         // as long as we are not at lane9, move up one lane
         if (~(current_state == LANE9)) begin
             next_state = current_state + 4'b0001; 
         end
     end
-    always @(posedge button_down) begin
+    always @(posedge clean_button_down) begin
         // as long as we are not at lane1, move down one lane
         if (~(current_state == LANE1)) begin //
             next_state = current_state - 4'b0001;
@@ -103,8 +112,8 @@ module player_controller(
         current_state = next_state;
 
         // Encode projectile data in two bits
-        projectile_encoded[1] = is_firing;
-        projectile_encoded[0] = projectile;
+        projectile_encoded[1] = clean_is_firing;
+        projectile_encoded[0] = clean_projectile;
         // Encode output data: rst, (nothing/0), projectile, and lane
         data_out <= {rst, 1'b0, projectile_encoded, current_state}; 
         
