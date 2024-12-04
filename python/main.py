@@ -35,6 +35,10 @@ font = pygame.font.SysFont(None, 48)
 # Player
 player = pygame.Rect(SCREEN_WIDTH // 15, SCREEN_HEIGHT // 2, PLAYER_SIZE, PLAYER_SIZE)
 player_state = 0
+player_image0 = pygame.image.load("art/player0.png")
+player_image1 = pygame.image.load("art/player1.png")
+player_image0 = pygame.transform.scale(player_image0, (PLAYER_SIZE, PLAYER_SIZE))
+player_image1 = pygame.transform.scale(player_image1, (PLAYER_SIZE, PLAYER_SIZE))
 
 
 # Variables
@@ -87,8 +91,8 @@ while running:
     remaining_time = max(0, GAME_TIME - elapsed_time)
 
 
-    if remaining_time == 0:
-        running = False
+    # if remaining_time == 0:
+    #     running = False
 
     # Event handling
     for event in pygame.event.get():
@@ -123,16 +127,18 @@ while running:
     screen.blit(resized_background,(0,0))
 
     if player_state == 0:
-        pygame.draw.rect(screen, cf.BLUE, player)
+        #pygame.draw.rect(screen, cf.BLUE, player)
+        screen.blit(player_image0, player.topleft)
     else: 
-        pygame.draw.rect(screen, RED, player)
+        #pygame.draw.rect(screen, RED, player)
+        screen.blit(player_image1, player.topleft)
     #pygame.draw.rect(screen, RED, coin)
 
     # Display score and time
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    time_text = font.render(f"Time: {int(remaining_time)}", True, WHITE)
+    score_text = font.render(f"Level: {score}", True, WHITE)
+    #time_text = font.render(f"Time: {int(remaining_time)}", True, WHITE)
     screen.blit(score_text, (10, 10))
-    screen.blit(time_text, (10, 50))
+    #screen.blit(time_text, (10, 50))
 
     # update projectiles
     for projectile in projectiles[:]:
@@ -148,7 +154,7 @@ while running:
     # if all enemies get killed
     if all(logic_enemy.isAlive == False for logic_enemy in enemies): 
         score+=1
-        print(difficulty_level)
+        # print(difficulty_level)
         enemies = Enemy.spawn_enemy_one_batch(difficulty_level)
         difficulty_level+=1
     
