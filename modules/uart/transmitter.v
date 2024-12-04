@@ -1,4 +1,4 @@
-`timescale 1ns / 1 ps
+`timescale 1ns / 1ps
 
 module transmitter(
   input clk_in,
