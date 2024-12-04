@@ -65,10 +65,8 @@ module player_controller(
                 LANE3 = 4'b0011,
                 LANE4 = 4'b0100,
                 LANE5 = 4'b0101,
-                LANE6 = 4'b0110,
-                LANE7 = 4'b0111,
-                LANE8 = 4'b1000,
-                LANE9 = 4'b1001;
+                LANE6 = 4'b0110;
+                
     
     // INITIALIZATION
     initial begin
@@ -83,8 +81,8 @@ module player_controller(
     
     // At posedge of buttons, update our movement
     always @(posedge clean_button_up) begin
-        // as long as we are not at lane9, move up one lane
-        if (~(current_state == LANE9)) begin
+        // as long as we are not at lane, move up one lane
+        if (~(current_state == LANE6)) begin
             next_state = current_state + 4'b0001; 
         end
     end
@@ -102,10 +100,10 @@ module player_controller(
         projectile_encoded = 2'b00;
     end
     
-    // At posedge of clk, update current state and encode output data
+    //  update current state and encode output data
     always @(*) begin //
         if (current_state == RESET) begin
-            next_state <= LANE5;
+            next_state <= LANE3;
         end
         
         // Move to the next state
