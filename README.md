@@ -27,3 +27,6 @@ Editor's note: My personal best record is level 6.
 
 ## Source
 [Presentation Slides](https://docs.google.com/presentation/d/1rNwIijCkfnFcIcx30BswdSxuwaVUb0PAgqpbr5YiXKE/edit?usp=sharing)
+
+## Group Members
+Pippi Pi, Elena Berrios, Julie Green, Kayla Tracey.
