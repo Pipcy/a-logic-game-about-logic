@@ -19,9 +19,9 @@ class Projectile:
 
     def __init__(self,value, x, y):
         self.value = value  
-        self.x = x  # Initial x position
-        self.y = y  # Initial y position
-        self.speed = 5  # Speed of the projectile moving forward
+        self.x = x              # Initial x position
+        self.y = y              # Initial y position
+        self.speed = 3          # Speed of the projectile moving forward
         self.angle = 360
 
 

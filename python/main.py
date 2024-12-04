@@ -10,7 +10,7 @@ from config import FPS
 from config import GAME_TIME
 from config import PLAYER_SIZE
 from config import PLAYER_SPEED
-from config import ENEMY_DEFAULT_SPEED
+from config import ENEMY_SPEED
 from config import COIN_SIZE
 from config import WHITE
 from config import BLACK
@@ -29,12 +29,16 @@ resized_background = pygame.transform.scale(background_surface, (SCREEN_WIDTH, S
 
 
 # Clock and font
-clock = pygame.time.Clock()
+# clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 48)
 
 # Player
 player = pygame.Rect(SCREEN_WIDTH // 15, SCREEN_HEIGHT // 2, PLAYER_SIZE, PLAYER_SIZE)
 player_state = 0
+player_image0 = pygame.image.load("art/player0.png")
+player_image1 = pygame.image.load("art/player1.png")
+player_image0 = pygame.transform.scale(player_image0, (PLAYER_SIZE, PLAYER_SIZE))
+player_image1 = pygame.transform.scale(player_image1, (PLAYER_SIZE, PLAYER_SIZE))
 
 
 # Variables
@@ -48,14 +52,17 @@ Projectile.load_images()
 
 #enemy
 Enemy.load_images()
-enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(2)]  # Create some enemies
+#enemies = [Enemy(1080, cf.ENEMY_SPAWN_Y[random.randint(0, 2)]) for _ in range(2)]  # Create some enemies
+enemies = [Enemy(1080, random.choice(cf.ENEMY_SPAWN_Y)) for _ in range(1,2)]  # Create initial enemy batch
+difficulty_level = 1
+# Enemy.spawn_enemy_one_batch()
 
 
 #lose
 def lose():
     screen.fill(BLACK)
-    game_over_text = font.render("You lost!", True, WHITE)
-    final_score_text = font.render(f"Final Score: {score}", True, WHITE)
+    game_over_text = font.render("Game Over!", True, WHITE)
+    final_score_text = font.render(f"You reached level: {score}", True, WHITE)
     screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
     screen.blit(final_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 10))
     pygame.display.flip()
@@ -66,7 +73,7 @@ def lose():
 def over():
     screen.fill(BLACK)
     game_over_text = font.render("Game Over!", True, WHITE)
-    final_score_text = font.render(f"Final Score: {score}", True, WHITE)
+    final_score_text = font.render(f"You reached level: {score}", True, WHITE)
     screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
     screen.blit(final_score_text, (SCREEN_WIDTH // 2 - 130, SCREEN_HEIGHT // 2 + 10))
     pygame.display.flip()
@@ -84,8 +91,8 @@ while running:
     remaining_time = max(0, GAME_TIME - elapsed_time)
 
 
-    if remaining_time == 0:
-        running = False
+    # if remaining_time == 0:
+    #     running = False
 
     # Event handling
     for event in pygame.event.get():
@@ -93,10 +100,10 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             # change ammo (1 or 0)
-            if event.key == pygame.K_a:
+            if event.key == pygame.K_u:
                 projectile_value = 1
                 player_state = 1
-            elif event.key == pygame.K_d:
+            elif event.key == pygame.K_i:
                 projectile_value = 0
                 player_state = 0
 
@@ -120,16 +127,18 @@ while running:
     screen.blit(resized_background,(0,0))
 
     if player_state == 0:
-        pygame.draw.rect(screen, cf.BLUE, player)
+        #pygame.draw.rect(screen, cf.BLUE, player)
+        screen.blit(player_image0, player.topleft)
     else: 
-        pygame.draw.rect(screen, RED, player)
+        #pygame.draw.rect(screen, RED, player)
+        screen.blit(player_image1, player.topleft)
     #pygame.draw.rect(screen, RED, coin)
 
     # Display score and time
-    score_text = font.render(f"Score: {score}", True, WHITE)
-    time_text = font.render(f"Time: {int(remaining_time)}", True, WHITE)
+    score_text = font.render(f"Level: {score}", True, WHITE)
+    #time_text = font.render(f"Time: {int(remaining_time)}", True, WHITE)
     screen.blit(score_text, (10, 10))
-    screen.blit(time_text, (10, 50))
+    #screen.blit(time_text, (10, 50))
 
     # update projectiles
     for projectile in projectiles[:]:
@@ -140,13 +149,22 @@ while running:
                 projectile.draw(screen)
 
     # Update enemies and check for collisions
-    print(str(enemies[0].inputA)+str(enemies[0].inputB)+str(enemies[0].input_result))
+    # print(str(enemies[0].inputA)+str(enemies[0].inputB)+str(enemies[0].input_result))
+    # print(len(enemies))
+    # if all enemies get killed
+    if all(logic_enemy.isAlive == False for logic_enemy in enemies): 
+        score+=1
+        # print(difficulty_level)
+        enemies = Enemy.spawn_enemy_one_batch(difficulty_level)
+        difficulty_level+=1
+    
     for enemy in enemies:
-        enemy.update()
+    
+        enemy.update(difficulty_level)
         enemy.check_logic()
         for projectile in projectiles:
             if enemy.check_collision(projectile):
-                score+=1
+                #score+=1
                 projectiles.remove(projectile) # projectile disappear when hit an enemy
                 break
         enemy.draw(screen)
@@ -158,7 +176,7 @@ while running:
 
     # Update display
     pygame.display.flip()
-    clock.tick(FPS)
+    #clock.tick(FPS)
 
 # Game over
 over()
