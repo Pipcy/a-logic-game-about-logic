@@ -21,6 +21,8 @@ make sure you have python installed.
 ```
 git clone https://github.com/Pipcy/a-logic-game-about-logic.git
 cd python
+pip install pygame
+pip install numpy // along with other packages if it says "not found" (I can't recall all)
 python main.py
 ```
 Editor's note: My personal best record is level 6.
