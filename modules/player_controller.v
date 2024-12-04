@@ -1,34 +1,14 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 12/03/2024 03:50:08 PM
-// Design Name: 
-// Module Name: player_controller
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 /*
- * The player_controller is the top module that handles user input, including
+ * This is no longer the topmost module!
+ *
+ * The player_controller (instantiated by uart_controller) handles user input, including
  * vertical movement, firing projectiles, switching projectile types, and reset.
  * It outputs the player position (in the form of a lane number), projectile
  * information, reset and clock values. These outputs are encoded to fit
  * in a single 8-bit number, data_out.
- *
+ * 
  */
 
 module player_controller(
@@ -40,9 +20,6 @@ module player_controller(
     input projectile,           // switch projectile type
     output reg [7:0] data_out   // 8-bit encoded data to be sent via UART
     );   
-     
-    // CONFIGURATION
-
     
     // Registers for the current and next state (lane)
     reg [3:0] current_state;
@@ -52,11 +29,13 @@ module player_controller(
     wire clean_button_down;
     wire clean_is_firing;
     wire clean_projectile;
-    
+
+    // Instantiate a debouncer for each button input    
     debouncer d1(clk, button_up, clean_button_up);
     debouncer d2(clk, button_down, clean_button_down);
     debouncer d3(clk, is_firing, clean_is_firing);
     debouncer d4(clk, projectile, clean_projectile);
+    // TODO: reset?!
     
     // STATE DEFINITIONS
     localparam  RESET = 4'b0000,
@@ -100,7 +79,7 @@ module player_controller(
         projectile_encoded = 2'b00;
     end
     
-    //  update current state and encode output data
+    //  Update current state and encode output data
     always @(*) begin //
         if (current_state == RESET) begin
             next_state <= LANE3;
