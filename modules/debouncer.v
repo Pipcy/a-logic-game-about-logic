@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 11/14/2024 04:50:02 PM
+// Create Date: 12/03/2024 07:10:02 PM
 // Design Name: 
-// Module Name: part3b_debouncer
+// Module Name: debouncer
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -23,30 +23,46 @@
 module debouncer(
     input clk,
     input noisyb,
-    output reg cleanb
+    output reg cleanb,
+    output reg cleanb_edge
     );
     
 //    localparam MAX = 2'b1010;
     reg [19:0] counter;
+    reg old_clean;
 //    reg locked;
     
     initial counter = 0;
     initial cleanb = 0;
+    initial old_clean=0;
 //    initial locked = 0;    
 //    always @(posedge clk or negedge noisyb) begin
     
     
     always @(posedge clk) begin
+    if(cleanb)begin
+    cleanb_edge = 0;
+    end
         if (~noisyb) begin
 //            locked = 0;
             counter = 0;
             cleanb = 0;
+            old_clean=0;
         end
         else begin
 //            if (counter >= 10 & (locked == 0)) begin
             if (counter >= 10000) begin
     //        if (counter >= 200000 & (locked == 0)) begin
                 cleanb = 1;
+                if (old_clean==0)
+                begin 
+                old_clean =1;
+                cleanb_edge =1;
+                end
+                else 
+                begin 
+                cleanb_edge =0;
+                end
 //                locked = 1;
                 //?
                 counter = 0;
