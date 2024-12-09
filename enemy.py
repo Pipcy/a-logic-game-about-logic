@@ -121,7 +121,7 @@ class Enemy:
 
         # NAND
         if self.enemyType == 'NAND' and self.inputA != 2 and self.inputB != 2:
-            self.input_result = self.inputA != 1 and self.inputB != 1
+            self.input_result = not(self.inputA == 1 and self.inputB == 1)
 
         # NOR
         if self.enemyType == 'NOR' and self.inputA != 2 and self.inputB != 2:

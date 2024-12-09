@@ -25,7 +25,7 @@ pip install pygame
 pip install numpy # along with other packages if it says "not found" (I can't recall all)
 python main.py
 ```
-Editor's note: My personal best record is level 6.
+Editor's note: My personal best record is level 6. Email me at ppp@bu.edu if you get higher than me and I may personally send you 5 dollars.
 
 ## Source
 [Presentation Slides](https://docs.google.com/presentation/d/1rNwIijCkfnFcIcx30BswdSxuwaVUb0PAgqpbr5YiXKE/edit?usp=sharing)

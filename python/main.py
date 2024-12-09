@@ -114,9 +114,9 @@ while running:
     # Player Movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player.y -= PLAYER_SPEED
+        player.y -= PLAYER_SPEED + difficulty_level *0.3
     if keys[pygame.K_s]:
-        player.y += PLAYER_SPEED
+        player.y += PLAYER_SPEED + difficulty_level *0.3
 
     # Boundaries
     player.x = max(0, min(SCREEN_WIDTH - PLAYER_SIZE, player.x))
