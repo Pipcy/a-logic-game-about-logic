@@ -19,9 +19,12 @@ module uart_controller_tb(
     
     initial begin
         rst = 0; clk = 0; button_up = 0; button_down = 0; is_firing = 0; projectile = 0;
-        #
+        #12 rst = 1;
+        #12 rst = 0;
+        #12 button_up = 1;
+        #16 button_up = 0;
 
-        #50 $finish;
+        #2000 $finish;
     
     end
     
