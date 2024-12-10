@@ -23,7 +23,7 @@ module uart_controller(
 	assign good2go = 1;
 
 	// Instantiate clock divider for baud rate
-	baud_clock_divider BAUD_CLK(
+	baud_clk_divider BCD(
 		.clk_in(clk_in),
 		.rst(rst),
 		.clk_out(clk_baud)
@@ -39,6 +39,8 @@ module uart_controller(
 		.projectile(proj),
 		.data_out(data_out)
 	);
+    // Temporarily just send 00000011
+//    assign data_out = 8'b00000011;
 
 	// Instantiate transmitter module and pass data_out to it
 	transmitter TX(
