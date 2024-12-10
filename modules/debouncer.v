@@ -51,7 +51,7 @@ module debouncer(
         end
         else begin
 //            if (counter >= 10 & (locked == 0)) begin
-            if (counter >= 10000) begin
+            if (counter >= 200000) begin
     //        if (counter >= 200000 & (locked == 0)) begin
                 cleanb = 1;
                 if (old_clean==0)
