@@ -8,7 +8,7 @@
 module baud_clk_divider(
     input clk_in,
     input rst,
-    output clk_out
+    output reg clk_out
     );
     
     // To achieve a baud rate of 9600, we need to divide the clock by a factor of:
@@ -16,21 +16,32 @@ module baud_clk_divider(
     parameter toggle_value = 10416;
 
     reg [31:0] counter;
-    wire [31:0] next;
+    reg [31:0] next;
 
     always @(posedge clk_in or posedge rst) begin
         if (rst) counter <=0;
         else counter <= next;
 
         if (counter == toggle_value)
-            assign next = 0;
-            assign clk_out = 1;
+            next = 0;
+            clk_out = 1;
         else
             next = counter + 1;
-            assign clk_out = 0;
+            clk_out = 0;
     end
     
 endmodule
+
+
+
+
+
+
+
+
+
+
+
 
 
 
