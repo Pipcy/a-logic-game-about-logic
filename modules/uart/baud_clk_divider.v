@@ -22,12 +22,13 @@ module baud_clk_divider(
         if (rst) counter <=0;
         else counter <= next;
 
-        if (counter == toggle_value)
+        if (counter == toggle_value) begin
             next = 0;
             clk_out = 1;
-        else
+        end else begin
             next = counter + 1;
             clk_out = 0;
+        end
     end
     
 endmodule
