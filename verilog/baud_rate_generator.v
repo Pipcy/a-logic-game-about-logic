@@ -6,15 +6,15 @@ module baud_rate_generator(
         output tick             // sample tick
     );
     //9600 baud
-    parameter   N = 10,     // number of counter bits
-                M = 651;     // counter limit value
-    
+    parameter   N = 14,     // number of counter bits
+//                M = 651;     // counter limit value
+                M =    10416;
     // Counter Register
     reg [N-1:0] counter;        // counter value
     wire [N-1:0] next;          // next counter value
     
     // Register Logic
-    always @(posedge clk_100MHz, posedge reset)
+    always @(posedge clk_100MHz or posedge reset)
         if(reset)
             counter <= 0;
         else

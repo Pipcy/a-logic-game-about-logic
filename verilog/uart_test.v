@@ -7,7 +7,8 @@ module uart_test(
     input btn_0,      
     input btn_1,
     input btn_2,
-    input btn_3,      
+    input btn_3, 
+    input proj,     
     output tx,              // USB-RS232 Tx
     output [3:0] an,        // 7 segment display digits
     output [0:6] seg,       // 7 segment display segments
@@ -76,11 +77,28 @@ module uart_test(
 
     assign btn_send = btn_tick_0 | btn_tick_1 | btn_tick_2 | btn_tick_3;
 
-    // Signal Logic    
-    assign rec_data1 = {btn_tick_0, btn_tick_1, btn_tick_2, btn_tick_3, 4'b1111};
+
+//    assign rec_data1 = {btn_tick_0, btn_tick_1, btn_tick_2, btn_tick_3, 4'b1111};
+    
+//    assign rec_data1 = {4'b0011, 1'b0, 1'b0, btn_tick_2 | btn_tick_3, btn_tick_1 | btn_tick_3 };
+//        assign rec_data1 = (btn_tick_0) ? 8'b00110000 :   // '0' (0x30)
+//                   (btn_tick_1) ? 8'b00110001 :   // '1' (0x31)
+//                   (btn_tick_2) ? 8'b00110010 :   // '2' (0x32)
+//                   (btn_tick_3) ? 8'b00110011 :   // '3' (0x33)
+//                   8'b00100000;  // Default case (just in case)        
+    pc PLAYER(
+        .rst(reset),
+        .clk(clk_100MHz),
+        .button_up(btn_3),
+        .button_down(btn_0),
+        .is_firing(btn_2),
+        .projectile(proj),
+        .data_out(rec_data1)
+        );
+
     
     // Output Logic
-    assign LED = rec_data;              // data byte received displayed on LEDs
+    assign LED = rec_data1;              // data byte received displayed on LEDs
     assign an = 4'b1110;                // using only one 7 segment digit 
     assign seg = {~rx_full, 2'b11, ~rx_empty, 3'b111};
 endmodule
