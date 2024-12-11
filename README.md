@@ -1,5 +1,6 @@
 # A Logic Game about Logic ("ALGAL")
 ALGAL is a **logic-focused** game where players solve **logic** puzzles to sharpen their **logical** reasoning and explore the power of **logic-driven** gameplay.
+Watch the [DEMO VIDEO HERE](https://www.youtube.com/watch?v=_8Lh1Su_pLo).
 
 ## Controls
 ### For NEXYS A7
