@@ -8,7 +8,7 @@ Watch the [DEMO VIDEO HERE](https://www.youtube.com/watch?v=_8Lh1Su_pLo).
 - Button BTND: Player Down
 - Button BTNR: Fire Bullet
 - Switch H17: Switch Ammo 0 / 1
-- BTNL: Reset Game
+- Button BTNL: Reset Game
 ### For Keyboard (Playtesting only)
 - W： Player Up
 - S：Player Down
@@ -18,7 +18,7 @@ Watch the [DEMO VIDEO HERE](https://www.youtube.com/watch?v=_8Lh1Su_pLo).
 
 
 ## Playtest on your Laptop
-make sure you have python installed.
+Make sure you have python installed.
 ```
 git clone https://github.com/Pipcy/a-logic-game-about-logic.git
 cd python
